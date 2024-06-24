@@ -1,35 +1,31 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// src/App.jsx
+import React, { useState } from 'react';
+import FileUpload from './components/FileUpload';
+import AiProcessor from './components/AiProcessor';
+import DisplayComponent from './components/DisplayComponent';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [file, setFile] = useState(null);
+  const [processedContent, setProcessedContent] = useState('');
+
+  const handleFileUpload = (uploadedFile) => {
+    setFile(uploadedFile);
+  };
+
+  const handleProcessedContent = (content) => {
+    setProcessedContent(content);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="flex flex-col items-center p-8 bg-gray-50 min-h-screen">
+      <h1 className="text-3xl font-bold mb-8">Resume Rewriter</h1>
+      <FileUpload onFileUpload={handleFileUpload} />
+      {file && (
+        <AiProcessor file={file} onProcessedContent={handleProcessedContent} />
+      )}
+      {processedContent && <DisplayComponent content={processedContent} />}
+    </div>
+  );
 }
 
-export default App
+export default App;
